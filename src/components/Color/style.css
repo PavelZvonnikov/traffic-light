@@ -1,0 +1,37 @@
+.light {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.green {
+  background-color: #5FCA3E;
+  box-shadow: 0px 0px 20px #5FCA3E;
+  top: auto;
+  bottom: 15px;
+}
+
+.red {
+  background-color: #E73528;
+  box-shadow: 0px 0px 20px #FF2515;
+  top: 15px;
+}
+
+.yellow {
+  background-color:  #FFFD54;
+  box-shadow: 0px 0px 20px #FFFD54;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.animate {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  25% { opacity: 0; }
+  75% { opacity: 1; }
+}
