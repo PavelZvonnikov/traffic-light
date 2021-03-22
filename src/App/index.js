@@ -42,33 +42,37 @@ export default {
     },
     setStorage (timeToChange, activeColor, count) {
       localStorage.setItem('values', JSON.stringify({timeToChange, activeColor, count}))
+    },
+
+    startApp() {
+      const { timeToChange, activeColor, count } = this.getStorage();
+
+      const routerValue = Number((this.$route.path).slice(1));
+
+      if (timeToChange && activeColor !== null && count && (routerValue - 1) === activeColor) {
+        this.activeColor = Number(activeColor);
+        this.timeToChange = Number(timeToChange);
+        this.count = Number(count);
+
+      } else {
+        this.activeColor = routerValue - 1;
+        this.timeToChange = this.colorsList[this.activeColor].seconds;
+      }
+
+      setInterval(() => {
+        this.count++;
+        this.timeToChange--;
+        if (this.count > this.colorsList[this.activeColor].seconds) {
+          this.activeColor = (this.activeColor < 3) ? this.activeColor + 1 : 0;
+          this.count = 0;
+          this.timeToChange = this.colorsList[this.activeColor].seconds;
+          this.$router.push({ path: `${this.colorsList[this.activeColor].id}` });
+        }
+        this.setStorage(this.timeToChange, this.activeColor, this.count)
+      }, 1000);
     }
   },
   mounted() {
-    const { timeToChange, activeColor, count } = this.getStorage();
-
-    const routerValue = Number((this.$route.path).slice(1));
-
-    if (timeToChange && activeColor && count && (routerValue - 1) === activeColor) {
-      this.activeColor = Number(activeColor);
-      this.timeToChange = Number(timeToChange);
-      this.count = Number(count);
-
-    } else {
-      this.activeColor = routerValue - 1;
-      this.timeToChange = this.colorsList[this.activeColor].seconds;
-    }
-
-    setInterval(() => {
-      this.count++;
-      this.timeToChange--;
-      if (this.count > this.colorsList[this.activeColor].seconds) {
-        this.activeColor = (this.activeColor < 3) ? this.activeColor + 1 : 0;
-        this.count = 0;
-        this.timeToChange = this.colorsList[this.activeColor].seconds;
-        this.$router.push({ path: `${this.colorsList[this.activeColor].id}` });
-      }
-      this.setStorage(this.timeToChange, this.activeColor, this.count)
-    }, 1000);
+    this.startApp();
   }
 }
