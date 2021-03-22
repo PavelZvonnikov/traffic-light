@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     getStorage() {
-      return JSON.parse(localStorage.getItem('values'))
+      return JSON.parse(localStorage.getItem('values')) || {}
     },
     setStorage (timeToChange, activeColor, count) {
       localStorage.setItem('values', JSON.stringify({timeToChange, activeColor, count}))
@@ -49,7 +49,7 @@ export default {
 
     const routerValue = Number((this.$route.path).slice(1));
 
-    if (timeToChange !== null && activeColor !== null && count !== null && (routerValue - 1) === activeColor) {
+    if (timeToChange && activeColor && count && (routerValue - 1) === activeColor) {
       this.activeColor = Number(activeColor);
       this.timeToChange = Number(timeToChange);
       this.count = Number(count);
